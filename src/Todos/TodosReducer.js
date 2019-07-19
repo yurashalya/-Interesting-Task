@@ -18,6 +18,13 @@ export function remove (todo) {
   }
 }
 
+export function edit (id) {
+  return {
+    type: TODOS_EDIT,
+    payload: id
+  }
+}
+
 
 const ACTION_HANDLERS = {
   [TODOS_ADD]: (state, action) => {
@@ -30,14 +37,17 @@ const ACTION_HANDLERS = {
     let stateCopy = state.filter(t => t !== action.payload);
     localStorage.setItem('state', JSON.stringify(stateCopy));
     return stateCopy;
-  },
+  }
 }
+
+const persistedState = localStorage.getItem('app_state') 
+        ? JSON.parse(localStorage.getItem('app_state')).todos 
+        : undefined
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default function todosReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
   return handler ? handler(state, action) : state;
 }
