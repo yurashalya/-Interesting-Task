@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import './Products.scss'
-import fakeProductsData from './fakeProductsData.json'
+import React, { useState } from 'react';
+import './Products.scss';
+import fakeProductsData from './fakeProductsData.json';
+import MainProducts, { MainProduct } from './ProductsMain';
 
 const formatName = (name) => name.replace('&amp;', '&');
 const toSlug = (name) => `#${name.toLowerCase().replace(' ', '-')}`;
@@ -53,26 +54,11 @@ export const Products = () => {
       <div className="products-wrapp">
         {mainProducts.map((data, item) => <MainProduct {...data} key={item} />)}
       </div>
+      <MainProduct />
     </div>
   )
 }
 
-const MainProduct = ({ id, image, name, price }) => (
-  <div key={id} className="product-main">
-    <div className="products-img">
-      <div className="products-details">
-        product details 
-      </div>
-      <div className="products-pick">
-        pick this
-      </div>
-      <img src={image} className="img"/>
-    </div>
-    <div className="products-content">
-      <p className="products-title">{name}</p>
-      <p className="products-price">Starting at {price}</p>
-    </div>
-  </div>
-)
+
 
 export default Products;

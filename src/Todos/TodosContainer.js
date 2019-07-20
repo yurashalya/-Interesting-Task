@@ -7,10 +7,10 @@ const mapDispatchToProps = {
   remove: (todo) => remove(todo),
   add: (data) => add(data),
   edit: (prev, updated) => edit(prev, updated)
-}
+};
 
 const mapStateToProps = (state) => ({
   todos: state.todos
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todos)
+export default connect(mapStateToProps, mapDispatchToProps)(Todos);

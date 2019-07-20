@@ -10,14 +10,14 @@ export function add (todo = '') {
     type: TODOS_ADD,
     payload: todo
   }
-}
+};
 
 export function remove (todo) {
   return {
     type: TODOS_REMOVE,
     payload: todo
   }
-}
+};
 
 export function edit (previous, updated) {
   return {
@@ -27,7 +27,7 @@ export function edit (previous, updated) {
       updated
     }
   }
-}
+};
 
 
 const ACTION_HANDLERS = {
@@ -44,17 +44,15 @@ const ACTION_HANDLERS = {
   },
   [TODOS_EDIT]: (state, action) => {
     let stateCopy = state.map(t => t === action.payload.previous ? action.payload.updated : t );
-    debugger
+    localStorage.setItem('state', JSON.stringify(stateCopy));
     return stateCopy;
   }
-  
-  
-}
+};
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 export default function todosReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
+  const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
-}
+};

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Todo.scss';
 import { Alert } from 'react-bootstrap';
 import changeImg from './../assets/change.png';
 
-class Todos extends React.Component {
+class Todos extends Component {
   state = {
     inputValue: '',
     isValidForm: false,
@@ -44,15 +44,15 @@ class Todos extends React.Component {
     this.state.changeBtn === false ? this.setState({changeBtn: true}) : this.setState({changeBtn: false});
     this.setState({changeData: t});
 
-    this.props.edit(t);
-    this.state.inputValue = t;
-  }
+    this.props.edit(this.state.changeData);
+    this.setState({inputValue: t});
+  };
 
   changeDataTodo = () => {
     this.props.edit(this.state.changeData, this.state.inputValue);
-    debugger
-    this.setState({inputValue:''});
-  }
+    
+    this.setState({inputValue:'', changeBtn: false});
+  };
 
   render() {
     const {isValidForm} = this.state;
@@ -95,13 +95,12 @@ class Todos extends React.Component {
     </div>
     )
   }
-}
-
-
+};
 
 Todos.propTypes = {
   todos: PropTypes.array.isRequired,
-  remove: PropTypes.func.isRequired
-}
+  remove: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired
+};
 
-export default Todos
+export default Todos;
