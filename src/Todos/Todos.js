@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Todo.scss';
 import { Alert } from 'react-bootstrap';
+import changeImg from './../assets/change.png';
 
 class Todos extends React.Component {
   state = {
     inputValue: '',
-    isValidForm: false
+    isValidForm: false,
+    changeBtn: false,
+    changeData: null
   };
 
   componentDidMount () {
@@ -32,12 +36,27 @@ class Todos extends React.Component {
     this.setState({inputValue:''});
   };
 
-  removeTast = (t) => {
-    this.props.remove(t);
+  removeTask = (t) => {
+    this.props.remove(t) && this.setState({isValidForm: false});
   };
+
+  changeTask = (t) => {
+    this.state.changeBtn === false ? this.setState({changeBtn: true}) : this.setState({changeBtn: false});
+    this.setState({changeData: t});
+
+    this.props.edit(t);
+    this.state.inputValue = t;
+  }
+
+  changeDataTodo = () => {
+    this.props.edit(this.state.changeData, this.state.inputValue);
+    debugger
+    this.setState({inputValue:''});
+  }
 
   render() {
     const {isValidForm} = this.state;
+    const {changeBtn} = this.state;
     return (
       <div style={{ margin: '0 auto', maxWidth: '400px' }} >
       <h2>Todos:</h2>
@@ -46,7 +65,12 @@ class Todos extends React.Component {
           this.props.todos.map((t, idx) => (
             <li key={t} className='list-group-item d-flex justify-content-between align-items-center'>
               {++idx}. {t}
-              <button className='close' onClick={() => this.removeTast(t)}>
+              <button className='close changeBtn' onClick={() => this.changeTask(t)} >
+                <span> 
+                  <img src={changeImg} /> 
+                </span>
+              </button>
+              <button className='close' onClick={() => this.removeTask(t)}>
                 <span>&times;</span>
               </button>
             </li>
@@ -62,7 +86,9 @@ class Todos extends React.Component {
               value={this.state.inputValue}
               onChange={(e) => this.inputChange(e)} />
         <div className='input-group-append'>
-          <button className='btn btn-outline-secondary' onClick={this.addTask}>Add</button>
+          <button className='btn btn-outline-secondary' onClick={!changeBtn ? this.addTask : this.changeDataTodo}>
+             {changeBtn ? 'Save' : 'Add'}  
+            </button>
         </div>
       </div>
       { isValidForm && <Alert variant='danger mt-4'>Todo already exist in the list</Alert> }

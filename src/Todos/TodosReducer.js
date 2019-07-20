@@ -1,5 +1,6 @@
 export const TODOS_ADD = 'TODOS_ADD';
 export const TODOS_REMOVE = 'TODOS_REMOVE';
+export const TODOS_EDIT = 'TODOS_EDIT';
 
 const initialState = [];
 
@@ -18,10 +19,13 @@ export function remove (todo) {
   }
 }
 
-export function edit (id) {
+export function edit (previous, updated) {
   return {
     type: TODOS_EDIT,
-    payload: id
+    payload: {
+      previous,
+      updated
+    }
   }
 }
 
@@ -37,12 +41,15 @@ const ACTION_HANDLERS = {
     let stateCopy = state.filter(t => t !== action.payload);
     localStorage.setItem('state', JSON.stringify(stateCopy));
     return stateCopy;
+  },
+  [TODOS_EDIT]: (state, action) => {
+    let stateCopy = state.map(t => t === action.payload.previous ? action.payload.updated : t );
+    debugger
+    return stateCopy;
   }
+  
+  
 }
-
-const persistedState = localStorage.getItem('app_state') 
-        ? JSON.parse(localStorage.getItem('app_state')).todos 
-        : undefined
 
 // ------------------------------------
 // Reducer

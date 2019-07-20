@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-
 import './Products.scss'
 import fakeProductsData from './fakeProductsData.json'
 
-const formatName = (name) => name.replace('&amp;', '&')
-const toSlug = (name) => `#${name.toLowerCase().replace(' ', '-')}`
+const formatName = (name) => name.replace('&amp;', '&');
+const toSlug = (name) => `#${name.toLowerCase().replace(' ', '-')}`;
 
 const mapProduct = (product) => ({
   id: product.product_id,
@@ -26,14 +25,15 @@ const filterProductsByCategory = (category) =>
           .forEach(i => res.push(mapProduct(i)))
       }
 
-      return res
+      return res;
     }, [])
 
 export const Products = () => {
   const [selectedCategory, selectCategory] = useState('All');
+  const mainProducts = filterProductsByCategory(selectedCategory);
 
   return (
-    <div className='products-container' >
+    <div className="products-container" >
       <nav className='nav nav-pills flex-column flex-sm-row'>
         {
           fakeProductsData['product-catalog']
@@ -50,13 +50,29 @@ export const Products = () => {
             ))
         }
       </nav>
-      <hr />
-      {/*TODO: Replace with responsive products grid*/}
-      <pre dangerouslySetInnerHTML={{__html: JSON.stringify(filterProductsByCategory(selectedCategory), null, 2) }}>
-      </pre>
-
+      <div className="products-wrapp">
+        {mainProducts.map((data, item) => <MainProduct {...data} key={item} />)}
+      </div>
     </div>
   )
 }
 
-export default Products
+const MainProduct = ({ id, image, name, price }) => (
+  <div key={id} className="product-main">
+    <div className="products-img">
+      <div className="products-details">
+        product details 
+      </div>
+      <div className="products-pick">
+        pick this
+      </div>
+      <img src={image} className="img"/>
+    </div>
+    <div className="products-content">
+      <p className="products-title">{name}</p>
+      <p className="products-price">Starting at {price}</p>
+    </div>
+  </div>
+)
+
+export default Products;
