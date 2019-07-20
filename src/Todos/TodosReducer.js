@@ -36,7 +36,6 @@ const ACTION_HANDLERS = {
     localStorage.setItem('state', JSON.stringify(stateCopy));
     return stateCopy;
   },
-
   [TODOS_REMOVE]: (state, action) => {
     let stateCopy = state.filter(t => t !== action.payload);
     localStorage.setItem('state', JSON.stringify(stateCopy));

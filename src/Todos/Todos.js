@@ -31,7 +31,7 @@ class Todos extends Component {
 
     stateArray.includes(this.state.inputValue)
         ? this.setState({isValidForm: true})
-        : this.props.add(this.state.inputValue) && this.setState({isValidForm: false})
+        : this.props.add(this.state.inputValue) && this.setState({isValidForm: false});
 
     this.setState({inputValue:''});
   };
@@ -43,14 +43,12 @@ class Todos extends Component {
   changeTask = (t) => {
     this.state.changeBtn === false ? this.setState({changeBtn: true}) : this.setState({changeBtn: false});
     this.setState({changeData: t});
-
     this.props.edit(this.state.changeData);
     this.setState({inputValue: t});
   };
 
   changeDataTodo = () => {
     this.props.edit(this.state.changeData, this.state.inputValue);
-    
     this.setState({inputValue:'', changeBtn: false});
   };
 
@@ -86,7 +84,7 @@ class Todos extends Component {
               value={this.state.inputValue}
               onChange={(e) => this.inputChange(e)} />
         <div className='input-group-append'>
-          <button className='btn btn-outline-secondary' onClick={!changeBtn ? this.addTask : this.changeDataTodo}>
+          <button className='btn btn-outline-secondary' disabled={!this.state.inputValue} onClick={!changeBtn ? this.addTask : this.changeDataTodo}>
              {changeBtn ? 'Save' : 'Add'}  
             </button>
         </div>
